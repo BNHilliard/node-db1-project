@@ -14,8 +14,8 @@ router.get('/:id', checkAccountId, (req, res, next) => {
   res.status(200).json(req.account)
 })
 
-router.post('/', checkAccountPayload, (req, res, next) => {
-  Accounts.create(req.body)
+router.post('/', checkAccountPayload, checkAccountNameUnique, (req, res, next) => {
+  Accounts.create({"name": req.body.name.trim(), "budget": req.body.budget})
   .then(resp => {
     res.status(201).json(resp)
 }).catch(err => {
